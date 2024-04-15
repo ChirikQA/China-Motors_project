@@ -56,13 +56,4 @@ public class MainPageTest {
         $(By.cssSelector("body > div.container > div.content.wrapper > div.content_list > div.main-pros > div > a:nth-child(3)")).click();
     }
 
-    @Test
-    public void test_new() {
-        $(By.cssSelector("body > div.header_menu > nav > ul > li:nth-child(1) > a")).click();
-        $(By.cssSelector("#test_form > div > div > div.attribute_parameters > div > div.attribute_parameters-one > span.select2.select2-container.select2-container--default.select2-container--below.select2-container--focus > span.selection")).click();
-        $(By.cssSelector("#select2-brand_id_select-result-prg7-423")).click();
-        $(By.cssSelector("#test_form > div > div > div:nth-child(3) > div > button")).click();
-
-
-    }
 }
