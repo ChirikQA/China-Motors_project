@@ -1,55 +1,98 @@
 package com.example.chinamotors_project;
-
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 
 
-import static com.codeborne.selenide.Condition.visible;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
+
 import static com.codeborne.selenide.Selenide.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class MainPageTest {
+
 
     @BeforeAll
     public static void setUpAll() {
         Configuration.browserSize = "1280x800";
+        Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
 
     @BeforeEach
     public void setUp(){
-        Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
-        open("https://solyarka.com/");
+        open("https://china-motors.org/");
     }
 
     @Test
-    public void close_banner() {
-        sleep(10000);
-        $(By.cssSelector("body > div.popup1.popup1--adv.fade > div.popup1-adv > button")).shouldBe(visible);
+    public void dropDown_presentation() {
+        $(By.xpath("/html/body/header/div[2]/div/nav/ul/li[5]/button")).click();
+        sleep(2000);
 
-        $(By.cssSelector("body > div.popup1.popup1--adv.fade > div.popup1-adv > button")).click();
+        ElementsCollection dropdownOptions = $$(By.xpath("/html/body/main/div[2]/div[1]/section[1]/form/div/div[1]/div"));
+
+        if (dropdownOptions.isEmpty()) {
+            System.out.println("Выпадающий список пуст");
+            fail("Выпадающий список не может быть пустым");
+        } else {
+            System.out.println("Выпадающий список не пуст");
+        }
     }
 
     @Test
-    public void click_auth_button() {
-        $(By.cssSelector("body > header > div > div > nav > ul > li:nth-child(4) > form > a > button > span")).shouldBe(visible);
+    public void dropDown_dealerPage_model() {
+        $(By.xpath("/html/body/header/nav/div/ul/li[8]")).click();
+        sleep(2000);
+        $(By.xpath("/html/body/main/div[2]/div/form/div[3]/div/div[2]")).click();
 
-        $(By.xpath("/html/body/header/div/div/nav/ul/li[4]/form/a/button/span")).click();
+        List<WebElement> options = $(By.xpath("/html/body/main/div[2]/div/form/div[3]/div/div[2]")).findElements(By.tagName("li"));
+
+        if (options.isEmpty()) {
+            System.out.println("Выпадающий список пуст");
+        } else {
+            System.out.println("Выпадающий список не пуст");
+            fail("Выпадающий список не может быть заполненным");
+        }
     }
+
+
 
     @Test
-    public void click_main_menu() {
-        $(By.xpath("/html/body/header/div/div/div[1]")).shouldBe(visible);
+    public void dropDown_dealerPage_brand() {
+        $(By.xpath("/html/body/header/nav/div/ul/li[8]")).click();
+        sleep(2000);
+        $(By.xpath("/html/body/main/div[2]/div/form/div[3]/div/div[1]")).click();
 
-        $(By.xpath("/html/body/header/div/div/div[1]")).click();
+        List<WebElement> options = $(By.xpath("/html/body/main/div[2]/div/form/div[3]/div/div[1]/div[2]/ul")).findElements(By.tagName("li"));
+
+        if (options.isEmpty()) {
+            System.out.println("Выпадающий список пуст");
+            fail("Выпадающий список не может быть пустым");
+        } else {
+            System.out.println("Выпадающий список не пуст");
+
+        }
     }
 
-    @Test
-    public void click_low_price_btn() {
-        $(By.cssSelector("body > div.container > div.content.wrapper > div.content_list > div.main-pros > div > a:nth-child(3)")).click();
-    }
 
+    private int getStatusCode(String urlString) {
+        try {
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            return connection.getResponseCode();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
