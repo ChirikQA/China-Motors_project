@@ -1,6 +1,8 @@
 package com.example.chinamotors_project;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.*;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -63,6 +66,29 @@ public class MainPageTest {
         }
     }
 
+    @Test
+    public void popup_allDealers() {
+        $(By.xpath("/html/body/div[2]/div[1]/div[1]/div/div[3]/div/a")).click();
+
+        List<String> actualBrands = new ArrayList<>();
+        for (SelenideElement element : $$(".popup__content .brand")
+                .filter(Condition.visible)) {
+            actualBrands.add(element.getText());
+        }
+
+        List<String> expectedBrands = List.of(
+                "AITO", "AIWAYS", "ARCFOX", "AVATR", "BAIC GROUP", "BAOJUN", "BRILLIANCE AUTO", "BYD", "CHANGAN", "CHERY",
+                "DFM", "DAYUN", "DEEPAL", "DENZA", "DORCEN", "EXEED", "FAW", "FOTON MOTOR", "FEIFAN", "GAC", "GONOW",
+                "GEELY", "GREAT WALL", "HAFEI", "HIPHI", "HAIMA AUTO", "HANTENG AUTOS", "HAVAL", "HONGQI", "HUAWEI",
+                "IM MOTORS", "JAC", "JAECOO", "JETOUR", "KAIYI", "LANDWIND", "LEAP MOTOR", "LI AUTO", "LIFAN", "LIVAN",
+                "LYNK&CO", "MG", "NETA", "NIO", "OMODA", "ORA", "OTING", "POLESTAR", "RISING AUTO (FEIFAN)", "ROEWE",
+                "SAIC MOTOR", "SAIC MAXUS", "SWM", "SINOTRUK VGV", "SKYWELL", "TANK", "VENUCIA", "VOYAH", "WEY", "WM MOTOR",
+                "WULING", "XPENG", "XIAOMI", "ZOTYE AUTO", "ZXAUTO", "ZEEKR"
+        );
+
+
+        Assertions.assertEquals(expectedBrands, actualBrands, "Отображаемые бренды в попапе не совпадают с ожидаемыми");
+    }
 
 
     @Test
