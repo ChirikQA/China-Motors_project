@@ -70,6 +70,8 @@ public class MainPageTest {
     public void popup_allDealers() {
         $(By.xpath("/html/body/div[2]/div[1]/div[1]/div/div[3]/div/a")).click();
 
+        sleep(2000);
+
         List<String> actualBrands = new ArrayList<>();
         for (SelenideElement element : $$(".popup__content .brand")
                 .filter(Condition.visible)) {
