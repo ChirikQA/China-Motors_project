@@ -4,6 +4,13 @@
     <inspection_tool class="ConstantValue" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="true" />
     </inspection_tool>
+    <inspection_tool class="SizeReplaceableByIsEmpty" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredTypes">
+        <set>
+          <option value="com.codeborne.selenide.ElementsCollection" />
+        </set>
+      </option>
+    </inspection_tool>
     <inspection_tool class="ThrowablePrintStackTrace" enabled="true" level="WARNING" enabled_by_default="true">
       <scope name="Tests" level="WARNING" enabled="false" />
     </inspection_tool>
